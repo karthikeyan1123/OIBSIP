@@ -1,284 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Task App 2023</title>
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
-</head>
-<style>
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  <head>
+    <meta charset="UTF-8" />
 
-	font-family: sans-serif;
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Tribute Website | A.P. J Abdul Kalam</title>
+    
+  </head>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-button {
-	appearance: none;
-	background: none;
-	outline: none;
-	border: none;
-
-	cursor: pointer;
+.container {
+  background-color: #e5e5fd;
+  min-height: 100vh;
+  border: 10px solid #1d1e4c;
 }
 
-body {
-	background-color: #242948;
-	color: #fff;
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.top_section {
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.top_section h1 {
+  font-size: 50px;
+  font-weight: bold;
+  color: #1d1e4c;
+  text-transform: uppercase;
+}
+.top_section h4 {
+  font-size: 30px;
+  text-align: end;
 }
 
-main {
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
-	padding: 2rem 1.5rem;
+.image_container {
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-.app {
-	width: 100%;
-	max-width: 768px;
+.image_container,
+img {
+  width: 300px;
+  height: 320px;
+}
+.about_section {
+  margin-top: 50px;
+}
+.about_section h2 {
+  font-size: 70px;
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+.about_section p {
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 1.2px;
+  text-align: justify;
+}
+.biography_section {
+  margin: 50px 0;
+}
+.biography_section h3 {
+  margin-bottom: 20px;
+}
+.biography_section ul {
+  margin-left: 50px;
+}
+.biography_section li {
+  margin-bottom: 15px;
 }
 
-.app header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 1rem;
+footer {
+  margin: 50px 0;
+}
+footer p {
+  text-align: end;
 }
 
-.app header h1 {
-	color: #fff;
-	font-size: 24px;
-	font-weight: 400;
-}
-
-.app header button {
-	color: #fff;
-	font-size: 18px;
-	border-bottom: 2px solid #fff;
-	text-transform: uppercase;
-}
-
-.item {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 1.5rem;
-	border-radius: 1rem;
-	background-color: #1e223d;
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-	margin-bottom: 1.5rem;
-}
-
-.item:last-of-type {
-	margin-bottom: 0;
-}
-
-.item input[type="checkbox"] {
-	margin-right: 1rem;
-}
-
-.item input[type="text"] {
-	appearance: none;
-	background: none;
-	border: none;
-	outline: none;
-	font-weight: 400;
-	color: #fff;
-	font-size: 20px;
-	flex: 1 1 0%;
-	margin-right: 1rem;
-}
-
-.item input[type="text"]:not(:disabled) {
-	border-bottom: 2px solid #fff;
-}
-
-.item.complete {
-	opacity: 0.7;
-}
-
-.item.complete input[type="text"] {
-	text-decoration: line-through;
-}
-
-.item:hover,
-.item:focus-within {
-	outline: 2px solid #fff;
-}
-
-.actions button {
-	color: #CCC;
-	margin-right: 1rem;
-	opacity: 0.8;
-	transform: 0.1s;
-}
-
-.actions button.remove-btn {
-	color: crimson;
-}
-
-.actions button:hover {
-	opacity: 1;
-}
-
-.actions button:last-of-type {
-	margin-right: 0;
-}
-</style>
-<body>
-	
-	<main>
-
-		<div class="app">
-
-			<header>
-				<h1>Your Todos</h1>
-				<button id="create">Add new todo</button>
-			</header>
-
-			<div class="todo-list" id="list">
-
-				
-
-			</div>
-
-		</div>
-
-	</main>
-
-	<script>
-const list_el = document.getElementById("list");
-const create_btn_el = document.getElementById("create");
-
-let todos = [];
-
-create_btn_el.addEventListener('click', CreateNewTodo);
-
-function CreateNewTodo () {
-	const item = {
-		id: new Date().getTime(),
-		text: "",
-		complete: false
-	}
-
-	todos.unshift(item);
-
-	const { item_el, input_el } = CreateTodoElement(item);
-
-	list_el.prepend(item_el);
-
-	input_el.removeAttribute("disabled");
-	input_el.focus();
-
-	Save();
-}
-
-
-function CreateTodoElement(item) {
-	const item_el = document.createElement("div");
-	item_el.classList.add("item");
-
-	const checkbox = document.createElement("input");
-	checkbox.type = "checkbox";
-	checkbox.checked = item.complete;
-
-	if (item.complete) {
-		item_el.classList.add("complete");
-	}
-
-	const input_el = document.createElement("input");
-	input_el.type = "text";
-	input_el.value = item.text;
-	input_el.setAttribute("disabled", "");
-
-	const actions_el = document.createElement("div");
-	actions_el.classList.add("actions");
-
-	const edit_btn_el = document.createElement("button");
-	edit_btn_el.classList.add("material-icons");
-	edit_btn_el.innerText = "edit";
-
-	const remove_btn_el = document.createElement("button");
-	remove_btn_el.classList.add("material-icons", "remove-btn");
-	remove_btn_el.innerText = "remove_circle";
-
-	actions_el.append(edit_btn_el);
-	actions_el.append(remove_btn_el);
-
-	item_el.append(checkbox);
-	item_el.append(input_el);
-	item_el.append(actions_el);
-
-	
-	checkbox.addEventListener("change", () => {
-		item.complete = checkbox.checked;
-
-		if (item.complete) {
-			item_el.classList.add("complete");
-		} else {
-			item_el.classList.remove("complete");
-		}
-
-		Save();
-	});
-
-	input_el.addEventListener("input", () => {
-		item.text = input_el.value;
-	});
-
-	input_el.addEventListener("blur", () => {
-		input_el.setAttribute("disabled", "");
-		Save();
-	});
-
-	edit_btn_el.addEventListener("click", () => {
-		input_el.removeAttribute("disabled");
-		input_el.focus();
-	});
-
-	remove_btn_el.addEventListener("click", () => {
-		todos = todos.filter(t => t.id != item.id);
-
-		item_el.remove();
-
-		Save();
-	});
-
-	return { item_el, input_el, edit_btn_el, remove_btn_el }
-}
-
-function DisplayTodos() {
-	Load();
-
-	for (let i = 0; i < todos.length; i++) {
-		const item = todos[i];
-
-		const { item_el } = CreateTodoElement(item);
-
-		list_el.append(item_el);
-	}
-}
-
-DisplayTodos();
-
-function Save() {
-	const save = JSON.stringify(todos);
-	
-	localStorage.setItem("my_todos", save);
-}
-
-function Load() {
-	const data = localStorage.getItem("my_todos");
-
-	if (data) {
-		todos = JSON.parse(data);
-	}
-}
-  </script>
-</body>
+  </style>
+  <body>
+    <div class="container">
+      <div class="content">
+        <section class="top_section">
+          <div class="image_container">
+            <img src="image.jpg" alt="tribute" />
+          </div>
+          <div>
+            <h1>A . P . J Abdul Kalam</h1>
+            <h4>1931 - 2015</h4>
+          </div>
+        </section>
+        <section class="about_section">
+          <h2>Missile Man of India</h2>
+          <p>
+            <b>Avul Pakir Jainulabdeen Abdul Kalam</b> 15 October 1931 – 27 July
+            2015) was an Indian aerospace scientist who served as the 11th
+            president of India from 2002 to 2007. He was born and raised in
+            Rameswaram, Tamil Nadu and studied physics and aerospace
+            engineering. He spent the next four decades as a scientist and
+            science administrator, mainly at the Defence Research and
+            Development Organisation (DRDO) and Indian Space Research
+            Organisation (ISRO) and was intimately involved in India's civilian
+            space programme and military missile development efforts. He thus
+            came to be known as the Missile Man of India for his work on the
+            development of ballistic missile and launch vehicle
+            technology. A.P.J. Abdul Kalam created the Technology Vision 2020 project in 1998. The project sought to develop India’s economy through technology, particularly as applied to agriculture, and increase the availability of health care and education. In recognition of Kalam’s services to the country and broad popularity, the National Democratic Alliance nominated him for president in 2002. He also played a pivotal organisational,
+            technical, and political role in India's Pokhran-II nuclear tests in
+            1998, the first since the original nuclear test by India in 1974.A.P.J. Abdul Kalam won many awards, both from the Indian government and from the international community. His most notable awards were the Padma Vibhushan, won in 1990, and the Bharat Ratna, won in 1997, for his contributions to science and engineering and service to the government.
+          </p>
+          &nbsp;
+          <h3>QUOTES OF APJ ABDUL KALAM:</h3>
+          <p style="color:red">"All of us do not have equal talent. But , all of us have an equal opportunity to develop our talents."</p>
+          <p style="color:red">"Failure will never overtake me if my determination to succeed is strong enough."</p>
+          <p style="color:red">"Creativity is seeing the same thing but thinking differently."</p>
+          <p style="color:red">"If you fail, never give up because FAIL means "First Attempt In Learning".</p>
+          <p style="color:red">“Don’t take rest after your first victory because if you fail in second, more lips are waiting to say that your first victory was just luck.”</p>
+        </section>
+        <section class="biography_section">
+          <h3>Biographies</h3>
+          <ul>
+            <li>
+              Eternal Quest: Life and Times of Dr Kalam by S Chandra; Pentagon
+              Publishers, 2002.
+            </li>
+            <li>
+              President A P J Abdul Kalam by R K Pruthi; Anmol Publications,
+              2002.
+            </li>
+            <li>
+              A P J Abdul Kalam: The Visionary of India by K Bhushan, G Katyal;
+              A P H Pub Corp, 2002.
+            </li>
+            <li>
+              A Little Dream (documentary film) by P. Dhanapal; Minveli Media
+              Works Private Limited, 2008.
+            </li>
+            <li>
+              The Kalam Effect: My Years with the President by P M Nair; Harper
+              Collins, 2008.
+            </li>
+            <li>
+              My Days With Mahatma Abdul Kalam by Fr A K George; Novel
+              Corporation, 2009.
+            </li>
+            <li>
+              A.P.J. Abdul Kalam: A Life by Arun Tiwari; Haper Collins, 2015.
+            </li>
+            <li>
+              The People's President: Dr A P J Abdul Kalam by S M Khan;
+              Bloomsbury Publishing, 2016.
+            </li>
+          </ul>
+        </section>
+        <footer>
+          <p>
+            Read more about A. P. J. Abdul Kalam on
+            <a href="https://en.wikipedia.org/wiki/A._P._J._Abdul_Kalam"
+              >Wikipedia.</a
+            >
+          </p>
+        </footer>
+      </div>
+    </div>
+  </body>
 </html>
